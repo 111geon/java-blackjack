@@ -1,25 +1,22 @@
 package app.model;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class PlayerNames {
     private final List<PlayerName> playerNames;
 
-    public PlayerNames(List<String> playerNameStrList) {
-        validate(playerNameStrList);
-        this.playerNames = playerNameStrList.stream()
-                .map(playerNameStr -> new PlayerName(playerNameStr))
-                .collect(Collectors.toList());
+    public PlayerNames(List<PlayerName> playerNameList) {
+        validate(playerNameList);
+        this.playerNames = playerNameList;
     }
 
     public List<PlayerName> getPlayerNames() {
         return playerNames;
     }
 
-    private void validate(List<String> playerNameStrList) {
-        Set<String> playerNameStrSet = new HashSet<>(playerNameStrList);
-        if(playerNameStrSet.size() != playerNameStrList.size()) {
+    private void validate(List<PlayerName> playerNameList) {
+        Set<PlayerName> playerNameSet = new HashSet<>(playerNameList);
+        if(playerNameSet.size() != playerNameList.size()) {
             throw new PlayerNamesException("중복된 이름이 있습니다.");
         }
     }
