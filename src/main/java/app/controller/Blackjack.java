@@ -8,24 +8,23 @@ import java.util.stream.Collectors;
 
 public class Blackjack {
     private final Dealer dealer;
-    private Players players;
 
     public Blackjack(Dealer dealer) {
         this.dealer = dealer;
     }
 
     public void play() {
-        createPlayers();
+        Players players = createPlayers();
     }
 
-    private void createPlayers() {
+    private Players createPlayers() {
         try {
             PlayerNames playerNames = createPlayerNames();
             List<Player> playerList = createPlayerList(playerNames);
-            this.players = new Players(playerList);
+            return new Players(playerList);
         } catch(IllegalArgumentException error) {
             System.err.println(error.getMessage());
-            createPlayers();
+            return createPlayers();
         }
     }
 
