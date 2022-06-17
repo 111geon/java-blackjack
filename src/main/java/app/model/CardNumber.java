@@ -25,7 +25,9 @@ public enum CardNumber {
         this.cardNumberIntHigh = cardNumberIntHigh;
     }
 
-    String getCardNumberStr() {
-        return cardNumberStr;
-    }
+    String getCardNumberStr() { return cardNumberStr; }
+
+    int getCardNumberIntHigh() { return cardNumberIntHigh; }
+
+    int getCardNumberIntLow() { return cardNumberIntLow; }
 }

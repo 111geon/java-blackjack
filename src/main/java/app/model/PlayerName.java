@@ -23,7 +23,7 @@ public class PlayerName {
         return Objects.hash(playerNameStr);
     }
 
-    public String getPlayerNameStr() {
+    String getPlayerNameStr() {
         return playerNameStr;
     }
 

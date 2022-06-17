@@ -52,7 +52,7 @@ class PlayersTest {
                 .collect(Collectors.toList());
         Players players = new Players(gamblerList, dealer);
         deckOfCards.shuffleDeck();
-        players.go();
+        players.receiveStartingCards();
         assertThat(players.getDealer().getCardStrList().size()).isEqualTo(2);
         assertThat(players.getGamblerList().get(0).getCardStrList().size()).isEqualTo(2);
     }

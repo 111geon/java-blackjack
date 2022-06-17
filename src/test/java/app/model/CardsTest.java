@@ -18,9 +18,19 @@ public class CardsTest {
     @Test
     @DisplayName("DeckOfCard에서 카드 한장을 뽑아 Cards에 추가할 수 있다.")
     void drawCard() {
-        Cards card = new Cards(deckOfCards);
-        card.drawCard();
-        assertThat(card.getCardStrList().size()).isEqualTo(1);
-        assertThat(card.getCardStrList().get(0)).isEqualTo("K다이아몬드");
+        Cards cards = new Cards(deckOfCards);
+        cards.drawCard();
+        assertThat(cards.getCardStrList().size()).isEqualTo(1);
+        assertThat(cards.getCardStrList().get(0)).isEqualTo("K다이아몬드");
+    }
+
+    @Test
+    @DisplayName("Cards는 자신이 죽었는지 알 수 있다.")
+    void checkIfBusted() {
+        Cards cards = new Cards(deckOfCards);
+        cards.drawCard();
+        cards.drawCard();
+        cards.drawCard();
+        assertThat(cards.isBusted()).isEqualTo(true);
     }
 }

@@ -19,7 +19,7 @@ public class DeckOfCards {
         Collections.shuffle(cardList);
     }
 
-    public Card pop() {
+    Card pop() {
         return cardList.remove(cardList.size()-1);
     }
 

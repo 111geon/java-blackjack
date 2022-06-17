@@ -12,7 +12,7 @@ public enum CardShape {
         this.cardShape = cardShape;
     }
 
-    public String getCardShape() {
+    String getCardShape() {
         return cardShape;
     }
 }

@@ -4,7 +4,6 @@ import app.controller.Blackjack;
 import app.model.Cards;
 import app.model.Dealer;
 import app.model.DeckOfCards;
-import app.model.Player;
 
 public class App {
     public static void main(String[] args) {

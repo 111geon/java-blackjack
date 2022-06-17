@@ -4,9 +4,7 @@ import app.model.*;
 import app.view.Receiver;
 import app.view.Viewer;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Blackjack {
@@ -20,15 +18,9 @@ public class Blackjack {
 
     public void play() {
         Players players = createPlayers();
-        deckOfCards.shuffleDeck();
-        players.go();
-
-        Map<String, String> dealerCardStrMap = new HashMap<>();
-        Map<String, List<String>> gamblerCardsStrMap = new HashMap<>();
-        dealerCardStrMap.put(dealer.getPlayerNameStr(), dealer.peekCardStr());
-        players.getGamblerList().stream().forEach(player -> gamblerCardsStrMap.put(
-                player.getPlayerNameStr(), player.getCardStrList()));
-        Viewer.showInitialCards(dealerCardStrMap, gamblerCardsStrMap);
+        initGame(players);
+        rotatePlayers(players);
+        showResult(players);
     }
 
     private Players createPlayers() {
@@ -46,5 +38,43 @@ public class Blackjack {
                 .map(playerNameStr -> new PlayerName(playerNameStr))
                 .map(playerName -> new Gambler(playerName, new Cards(deckOfCards)))
                 .collect(Collectors.toList());
+    }
+
+    private void initGame(Players players) {
+        deckOfCards.shuffleDeck();
+        players.receiveStartingCards();
+
+        List<String> gamblerNameList = players.getGamblerList().stream()
+                .map(gambler -> gambler.getPlayerNameStr())
+                .collect(Collectors.toList());
+        int numCards = players.getGamblerList().get(0).startingCardStrList().size();
+
+        Viewer.startingAnnouncement(dealer.getPlayerNameStr(), gamblerNameList, numCards);
+        Viewer.showCards(PlayerDto.startingOf(dealer));
+        players.getGamblerList().stream().forEach(gambler -> Viewer.showCards(PlayerDto.startingOf(gambler)));
+    }
+
+    private void rotatePlayers(Players players) {
+        players.getGamblerList().stream().forEach(gambler -> rotateGambler(gambler));
+        rotateDealer();
+    }
+
+    private void rotateGambler(Gambler gambler) {
+        while (gambler.canDraw() && Receiver.askDraw(gambler.getPlayerNameStr())) {
+            gambler.drawCard(1);
+            Viewer.showCards(PlayerDto.of(gambler));
+        }
+    }
+
+    private void rotateDealer() {
+        if (dealer.canDraw()) {
+            dealer.drawCard(1);
+            Viewer.dealerDraw(PlayerDto.of(dealer), dealer.getDrawUnder());
+        }
+    }
+
+    private void showResult(Players players) {
+        Viewer.showSumCards(PlayerDto.sumOf(dealer));
+        players.getGamblerList().stream().forEach(gambler -> Viewer.showSumCards(PlayerDto.sumOf(gambler)));
     }
 }

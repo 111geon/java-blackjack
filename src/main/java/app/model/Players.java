@@ -17,7 +17,7 @@ public class Players {
         validate(gamblerList);
     }
 
-    public void go() {
+    public void receiveStartingCards() {
         dealer.drawCard(INITIAL_CARDS);
         gamblerList.stream().forEach(player -> player.drawCard(INITIAL_CARDS));
     }

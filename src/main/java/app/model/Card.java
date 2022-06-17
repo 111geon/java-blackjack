@@ -12,4 +12,12 @@ public class Card {
     String getCardStr() {
         return cardNumber.getCardNumberStr() + cardShape.getCardShape();
     }
+
+    int getCardIntHigh() {
+        return cardNumber.getCardNumberIntHigh();
+    }
+
+    int getCardIntLow() {
+        return cardNumber.getCardNumberIntLow();
+    }
 }
