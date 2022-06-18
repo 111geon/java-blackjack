@@ -1,6 +1,7 @@
 package app.view;
 
 import app.controller.PlayerDto;
+import app.controller.PlayerWinDto;
 
 import static java.lang.System.out;
 
@@ -23,6 +24,14 @@ public class Viewer {
 
     public static void showSumCards(PlayerDto playerDto) {
         out.println(nameAndCards(playerDto) + " - 결과: " + playerDto.sumCards);
+    }
+
+    public static void winsAnnouncement() {
+        out.println("## 최종 승패");
+    }
+
+    public static void showWins(PlayerWinDto playerWinDto) {
+        out.println(playerWinDto.name + ": " + playerWinDto.result);
     }
 
     private static String nameAndCards(PlayerDto playerDto) {

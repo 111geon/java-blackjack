@@ -30,6 +30,33 @@ public class Players {
         return dealer;
     }
 
+    public void checkWins() {
+        gamblerList.stream().forEach(gambler -> checkWin(gambler).run());
+    }
+
+    private Runnable checkWin(Gambler gambler) {
+        if (gambler.isBusted()) { return () -> dealerWins(gambler); }
+        if (dealer.isBusted()) { return () -> gamblerWins(gambler); }
+        if (dealer.sumCards() > gambler.sumCards()) { return () -> dealerWins(gambler); }
+        if (gambler.sumCards() > dealer.sumCards()) { return () -> gamblerWins(gambler); }
+        return () -> dealerGamblerTies(gambler);
+    }
+
+    private void gamblerWins(Gambler gambler) {
+        gambler.setResult(Result.WIN);
+        dealer.addResult(Result.LOSE);
+    }
+
+    private void dealerWins(Gambler gambler) {
+        gambler.setResult(Result.LOSE);
+        dealer.addResult(Result.WIN);
+    }
+
+    private void dealerGamblerTies(Gambler gambler) {
+        gambler.setResult(Result.TIE);
+        dealer.addResult(Result.TIE);
+    }
+
     private void validate(List<Gambler> gamblerList) {
         List<String> playerNameStrList = gamblerList.stream()
                 .map(Player::getPlayerNameStr).collect(Collectors.toList());

@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 public class Blackjack {
     private final Dealer dealer;
     private final DeckOfCards deckOfCards;
+    private Players players;
 
     public Blackjack(Dealer dealer, DeckOfCards deckOfCards) {
         this.dealer = dealer;
@@ -17,19 +18,20 @@ public class Blackjack {
     }
 
     public void play() {
-        Players players = createPlayers();
-        initGame(players);
-        rotatePlayers(players);
-        showResult(players);
+        setPlayers();
+        initGame();
+        rotatePlayers();
+        showCards();
+        showWins();
     }
 
-    private Players createPlayers() {
+    private void setPlayers() {
         try {
             List<Gambler> gamblerList = createGamblerList();
-            return new Players(gamblerList, dealer);
+            players = new Players(gamblerList, dealer);
         } catch(IllegalArgumentException error) {
             System.err.println(error.getMessage());
-            return createPlayers();
+            setPlayers();
         }
     }
 
@@ -40,7 +42,7 @@ public class Blackjack {
                 .collect(Collectors.toList());
     }
 
-    private void initGame(Players players) {
+    private void initGame() {
         deckOfCards.shuffleDeck();
         players.receiveStartingCards();
 
@@ -54,7 +56,7 @@ public class Blackjack {
         players.getGamblerList().stream().forEach(gambler -> Viewer.showCards(PlayerDto.startingOf(gambler)));
     }
 
-    private void rotatePlayers(Players players) {
+    private void rotatePlayers() {
         players.getGamblerList().stream().forEach(gambler -> rotateGambler(gambler));
         rotateDealer();
     }
@@ -73,8 +75,15 @@ public class Blackjack {
         }
     }
 
-    private void showResult(Players players) {
+    private void showCards() {
         Viewer.showSumCards(PlayerDto.sumOf(dealer));
         players.getGamblerList().stream().forEach(gambler -> Viewer.showSumCards(PlayerDto.sumOf(gambler)));
+    }
+
+    private void showWins() {
+        players.checkWins();
+        Viewer.winsAnnouncement();
+        Viewer.showWins(PlayerWinDto.from(dealer));
+        players.getGamblerList().stream().forEach(gambler -> Viewer.showWins(PlayerWinDto.from(gambler)));
     }
 }

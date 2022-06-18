@@ -56,4 +56,18 @@ class PlayersTest {
         assertThat(players.getDealer().getCardStrList().size()).isEqualTo(2);
         assertThat(players.getGamblerList().get(0).getCardStrList().size()).isEqualTo(2);
     }
+
+    @Test
+    @DisplayName("Dealer와 Gambler 사이에 승패를 결정할 수 있다.")
+    void checkWins() {
+        List<Gambler> gamblerList = Arrays.asList("a").stream()
+                .map(playerNameStr -> new PlayerName(playerNameStr))
+                .map(playerName -> new Gambler(playerName, new Cards(deckOfCards)))
+                .collect(Collectors.toList());
+        Players players = new Players(gamblerList, dealer);
+        players.receiveStartingCards();
+        players.checkWins();
+        assertThat(players.getDealer().getResults()).isEqualTo(Arrays.asList(Result.TIE));
+        assertThat(players.getGamblerList().get(0).getResultStr()).isEqualTo("무");
+    }
 }
