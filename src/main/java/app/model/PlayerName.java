@@ -1,26 +1,11 @@
 package app.model;
 
-import java.util.Objects;
-
 public class PlayerName {
     private final String playerNameStr;
 
     public PlayerName(String playerNameStr) {
         validate(playerNameStr);
         this.playerNameStr = playerNameStr;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PlayerName that = (PlayerName) o;
-        return Objects.equals(playerNameStr, that.playerNameStr);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(playerNameStr);
     }
 
     String getPlayerNameStr() {

@@ -3,6 +3,7 @@ package app.model;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class DeckOfCards {
@@ -18,6 +19,8 @@ public class DeckOfCards {
     public void shuffleDeck() {
         Collections.shuffle(cardList);
     }
+
+    void shuffleDeck(int seedValue) { Collections.shuffle(cardList, new Random(seedValue)); }
 
     Card pop() {
         return cardList.remove(cardList.size()-1);

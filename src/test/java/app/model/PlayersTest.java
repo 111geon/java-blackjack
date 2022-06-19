@@ -60,14 +60,17 @@ class PlayersTest {
     @Test
     @DisplayName("Dealer와 Gambler 사이에 승패를 결정할 수 있다.")
     void checkWins() {
-        List<Gambler> gamblerList = Arrays.asList("a").stream()
+        List<Gambler> gamblerList = Arrays.asList("a", "b", "c").stream()
                 .map(playerNameStr -> new PlayerName(playerNameStr))
                 .map(playerName -> new Gambler(playerName, new Cards(deckOfCards)))
                 .collect(Collectors.toList());
         Players players = new Players(gamblerList, dealer);
+        deckOfCards.shuffleDeck(6);
         players.receiveStartingCards();
         players.checkWins();
-        assertThat(players.getDealer().getResults()).isEqualTo(Arrays.asList(Result.TIE));
+        assertThat(players.getDealer().getResults()).isEqualTo(Arrays.asList(Result.TIE, Result.LOSE, Result.WIN));
         assertThat(players.getGamblerList().get(0).getResultStr()).isEqualTo("무");
+        assertThat(players.getGamblerList().get(1).getResultStr()).isEqualTo("승");
+        assertThat(players.getGamblerList().get(2).getResultStr()).isEqualTo("패");
     }
 }
