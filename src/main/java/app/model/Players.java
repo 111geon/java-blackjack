@@ -19,7 +19,7 @@ public class Players {
 
     public void receiveStartingCards() {
         dealer.drawCard(INITIAL_CARDS);
-        gamblerList.stream().forEach(player -> player.drawCard(INITIAL_CARDS));
+        for (Gambler gambler: gamblerList) { gambler.drawCard(INITIAL_CARDS); }
     }
 
     public List<Gambler> getGamblerList() {
@@ -31,7 +31,7 @@ public class Players {
     }
 
     public void checkWins() {
-        gamblerList.stream().forEach(gambler -> checkWin(gambler).run());
+        for (Gambler gambler: gamblerList) { checkWin(gambler).run(); }
     }
 
     private Runnable checkWin(Gambler gambler) {

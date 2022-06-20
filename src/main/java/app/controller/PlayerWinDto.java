@@ -24,7 +24,9 @@ public class PlayerWinDto{
         long numWins = resultList.stream().filter(result -> result.equals(Result.WIN)).count();
         long numLoses = resultList.stream().filter(result -> result.equals(Result.LOSE)).count();
         long numTies = resultList.stream().filter(result -> result.equals(Result.TIE)).count();
-        String result = numWins + "승 " + numLoses + "패 " + numTies + "무";
+        String result = numWins + Result.WIN.getResultStr() + " "
+                + numLoses + Result.LOSE.getResultStr() + " "
+                + numTies + Result.TIE.getResultStr();
         return new PlayerWinDto(dealer.getPlayerNameStr(), result);
     }
 }

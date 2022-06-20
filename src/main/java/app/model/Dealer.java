@@ -1,5 +1,8 @@
 package app.model;
 
+import app.controller.PlayerDto;
+import app.view.Viewer;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +22,12 @@ public class Dealer extends Player {
         return getCardStrList().subList(0, 1);
     }
 
-    public boolean canDraw() {
-        return sumCards() < getDrawUnder();
+    @Override
+    public void rotateCards() {
+        if (canDraw()) {
+            drawCard(1);
+            Viewer.dealerDraw(PlayerDto.of(this), getDrawUnder());
+        }
     }
 
     public int getDrawUnder() {
@@ -29,6 +36,11 @@ public class Dealer extends Player {
 
     public List<Result> getResults() {
         return results;
+    }
+
+    @Override
+    boolean canDraw() {
+        return sumCards() < getDrawUnder();
     }
 
     void addResult(Result result) {

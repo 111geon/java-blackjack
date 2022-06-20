@@ -1,8 +1,6 @@
 package app.model;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.IntStream;
 
 public abstract class Player {
     private final PlayerName playerName;
@@ -22,7 +20,9 @@ public abstract class Player {
     }
 
     public void drawCard(int num) {
-        IntStream.range(0, num).forEach(i -> cards.drawCard());
+        for (; num > 0; num--) {
+            cards.drawCard();
+        }
     }
 
     public int sumCards() {
@@ -35,5 +35,7 @@ public abstract class Player {
 
     public abstract List<String> startingCardStrList();
 
-    public abstract boolean canDraw();
+    public abstract void rotateCards();
+
+    abstract boolean canDraw();
 }

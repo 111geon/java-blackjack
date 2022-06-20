@@ -19,9 +19,10 @@ public class Blackjack {
 
     public void play() {
         setPlayers();
-        initGame();
+        rotateFirstCards();
+        showFirstCards();
         rotatePlayers();
-        showCards();
+        showSumCards();
         showWins();
     }
 
@@ -42,48 +43,43 @@ public class Blackjack {
                 .collect(Collectors.toList());
     }
 
-    private void initGame() {
+    private void rotateFirstCards() {
         deckOfCards.shuffleDeck();
         players.receiveStartingCards();
+    }
 
+    private void showFirstCards() {
         List<String> gamblerNameList = players.getGamblerList().stream()
                 .map(gambler -> gambler.getPlayerNameStr())
                 .collect(Collectors.toList());
         int numCards = players.getGamblerList().get(0).startingCardStrList().size();
 
         Viewer.startingAnnouncement(dealer.getPlayerNameStr(), gamblerNameList, numCards);
+
         Viewer.showCards(PlayerDto.startingOf(dealer));
-        players.getGamblerList().stream().forEach(gambler -> Viewer.showCards(PlayerDto.startingOf(gambler)));
+        for (Gambler gambler: players.getGamblerList()) {
+            Viewer.showCards(PlayerDto.startingOf(gambler));
+        }
     }
 
     private void rotatePlayers() {
-        players.getGamblerList().stream().forEach(gambler -> rotateGambler(gambler));
-        rotateDealer();
+        for (Gambler gambler: players.getGamblerList()) { gambler.rotateCards(); }
+        dealer.rotateCards();
     }
 
-    private void rotateGambler(Gambler gambler) {
-        while (gambler.canDraw() && Receiver.askDraw(gambler.getPlayerNameStr())) {
-            gambler.drawCard(1);
-            Viewer.showCards(PlayerDto.of(gambler));
-        }
-    }
-
-    private void rotateDealer() {
-        if (dealer.canDraw()) {
-            dealer.drawCard(1);
-            Viewer.dealerDraw(PlayerDto.of(dealer), dealer.getDrawUnder());
-        }
-    }
-
-    private void showCards() {
+    private void showSumCards() {
         Viewer.showSumCards(PlayerDto.sumOf(dealer));
-        players.getGamblerList().stream().forEach(gambler -> Viewer.showSumCards(PlayerDto.sumOf(gambler)));
+        for (Gambler gambler: players.getGamblerList()) {
+            Viewer.showSumCards(PlayerDto.sumOf(gambler));
+        }
     }
 
     private void showWins() {
         players.checkWins();
         Viewer.winsAnnouncement();
         Viewer.showWins(PlayerWinDto.from(dealer));
-        players.getGamblerList().stream().forEach(gambler -> Viewer.showWins(PlayerWinDto.from(gambler)));
+        for (Gambler gambler: players.getGamblerList()) {
+            Viewer.showWins(PlayerWinDto.from(gambler));
+        }
     }
 }

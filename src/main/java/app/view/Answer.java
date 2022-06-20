@@ -20,8 +20,8 @@ public enum Answer {
         return isTrue;
     }
 
-    static app.view.Answer findBy(String input) {
-        return Arrays.stream(app.view.Answer.values()).filter(answer -> answer.has(input)).findAny().orElse(RETRY);
+    static Answer findBy(String input) {
+        return Arrays.stream(Answer.values()).filter(answer -> answer.has(input)).findAny().orElse(RETRY);
     }
 
     private boolean has(String input) {

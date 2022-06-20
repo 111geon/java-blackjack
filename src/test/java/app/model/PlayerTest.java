@@ -57,4 +57,11 @@ public class PlayerTest {
         assertThat(dealer.canDraw()).isEqualTo(false);
         assertThat(gamblerList.get(0).canDraw()).isEqualTo(true);
     }
+
+    @Test
+    @DisplayName("Dealer는 추가로 draw할지 확인한 후 카드를 추가로 뽑거나 안뽑을 수 있다.")
+    void rotateCardForDealer() {
+        dealer.rotateCards();
+        assertThat(dealer.getCardStrList().size()).isEqualTo(2);
+    }
 }

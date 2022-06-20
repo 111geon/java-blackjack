@@ -15,14 +15,14 @@ public class Receiver {
                 .collect(Collectors.toList());
     }
 
-    public static boolean askDraw(String gamblerNameStr) {
-        System.out.println(gamblerNameStr + "는 한장의 카드를 더 받겠습니까?(예는 y, 아니오는 n)");
+    public static boolean askDraw(String name) {
+        System.out.println(name + "는 한장의 카드를 더 받겠습니까?(예는 y, 아니오는 n)");
         String input = sc.nextLine();
         Answer answer = Answer.findBy(input);
 
         if (answer.equals(Answer.RETRY)) {
             System.err.println("y 또는 n으로 대답하세요.");
-            return askDraw(gamblerNameStr);
+            return askDraw(name);
         }
 
         return answer.isTrue();

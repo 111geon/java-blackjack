@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class PlayersTest {
     private DeckOfCards deckOfCards;
@@ -68,9 +69,12 @@ class PlayersTest {
         deckOfCards.shuffleDeck(6);
         players.receiveStartingCards();
         players.checkWins();
-        assertThat(players.getDealer().getResults()).isEqualTo(Arrays.asList(Result.TIE, Result.LOSE, Result.WIN));
-        assertThat(players.getGamblerList().get(0).getResultStr()).isEqualTo("무");
-        assertThat(players.getGamblerList().get(1).getResultStr()).isEqualTo("승");
-        assertThat(players.getGamblerList().get(2).getResultStr()).isEqualTo("패");
+
+        assertAll(
+                () -> assertThat(players.getDealer().getResults()).isEqualTo(Arrays.asList(Result.TIE, Result.LOSE, Result.WIN)),
+                () -> assertThat(players.getGamblerList().get(0).getResultStr()).isEqualTo("무"),
+                () -> assertThat(players.getGamblerList().get(1).getResultStr()).isEqualTo("승"),
+                () -> assertThat(players.getGamblerList().get(2).getResultStr()).isEqualTo("패")
+        );
     }
 }
